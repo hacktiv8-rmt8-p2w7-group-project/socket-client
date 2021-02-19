@@ -65,14 +65,8 @@ export default {
         },
         gameStarted() {
             return this.users.length !== 2;
-        }
+        },
     },
-    // data() {
-    //     return {
-    //         gameStarted: (this.users.length === 2),
-    //         result: "",
-    //     };
-    // },
     methods: {
         setSelect(value) {
             this.gameStarted = true;
@@ -94,7 +88,7 @@ export default {
             this.$store.commit("setName", "");
             this.$store.commit("setUsers", "");
             this.$router.push({ name: "Login" });
-        }
+        },
     },
     sockets: {
         tie: function () {

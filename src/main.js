@@ -18,10 +18,13 @@ Vue.use(VueSweetalert2)
 
 import VueSocketIO from "vue-socket.io"
 
+// https://hacktiv8-p2w7-g-project-janken.herokuapp.com/
+// http://localhost:3000
+
 Vue.use(
     new VueSocketIO({
         debug: true,
-        connection: "http://localhost:3000",
+        connection: "https://hacktiv8-p2w7-g-project-janken.herokuapp.com/",
         vuex: {
             store,
             actionPrefix: "SOCKET_",
