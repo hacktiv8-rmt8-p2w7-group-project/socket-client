@@ -1,9 +1,5 @@
 <template>
     <div id="app">
-        <div id="nav">
-            <router-link to="/">Login</router-link> |
-            <router-link to="/gameRoom">GameRoom</router-link>
-        </div>
         <router-view />
     </div>
 </template>
@@ -28,5 +24,11 @@
 
 #nav a.router-link-exact-active {
     color: #42b983;
+}
+.custom_center_screen {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
 }
 </style>
