@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="justify-content-center">
-            <div v-if="!gameStarted">
+            <div>
                 <!-- <div>
                     <b-button variant="info" class="m-2" @click="playGame"
                         ><i class="fas fa-play-circle"></i> Play Game</b-button
@@ -14,20 +14,15 @@
                 </div>
             </div>
             <b-container>
-                <b-card>
+                <div class="d-flex row justify-content-center">
+                    <PlayerCard v-for="user in users" :key="user" :name="user"> </PlayerCard>
+                </div>
+                <!-- <b-card>
                     <div class="d-flex row justify-content-center">
                         {{ name }} <br />
                         {{ result }}
                     </div>
-                </b-card>
-            </b-container>
-            <b-container>
-                <b-card>
-                    <p>Player list :</p>
-                    <b-card v-for="user in users" :key="user">
-                        {{ user }}
-                    </b-card>
-                </b-card>
+                </b-card> -->
             </b-container>
             <b-container v-if="!gameStarted">
                 <img
@@ -52,10 +47,11 @@
 
 <script>
 import Swal from 'sweetalert2'
+import PlayerCard from '../components/PlayerCard.vue'
 export default {
     name: "GameRoom",
     props: ["gameId"],
-    components: {},
+    components: { PlayerCard },
     computed: {
         name() {
             return this.$store.state.name;
@@ -71,9 +67,6 @@ export default {
         };
     },
     methods: {
-        playGame() {
-            this.gameStarted = true;
-        },
         setSelect(value) {
             // this.$store.commit("setSelect", value);
             this.gameStarted = true
@@ -103,8 +96,11 @@ export default {
             Swal.fire({
                 title: "A tie!",
                 text: "No one wins!",
-                timer: 5000,
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
             });
+            this.gameStarted = false
         },
         player1Win: function (choices) {
             // countdown(choices);
@@ -116,8 +112,11 @@ export default {
             // submitted = false;
             Swal.fire({
                 title: `${choices[0]["user"]} wins!`,
-                timer: 5000,
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
             });
+            this.gameStarted = false
         },
         player2Win: function (choices) {
             // countdown(choices);
@@ -129,8 +128,11 @@ export default {
             // submitted = false;
             Swal.fire({
                 title: `${choices[1]["user"]} wins!`,
-                timer: 5000,
+                timer: 2000,
+                showConfirmButton: false,
+                timerProgressBar: true,
             });
+            this.gameStarted = false
         },
     },
     created() {
