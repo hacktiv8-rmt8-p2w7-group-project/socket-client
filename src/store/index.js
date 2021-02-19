@@ -27,13 +27,23 @@ export default new Vuex.Store({
         // },
         SOCKET_taken(context, payload) {
             // context.commit("setTaken", payload)
-            if(payload) {
-               context.commit("setName", payload);
+            if(!payload.state) {
+               context.commit("setName", payload.name);
                 router.push("/GameRoom");
+                Vue.toasted.show(`Welcome ${payload.name}`, {
+                    theme: "bubble",
+                    position: "top-right",
+                    duration: 2000
+                  });
             } else {
                 // context.commit("setName", '')
                 // router.push({ name: 'Login' })
                 //ALERT HERE
+                Vue.toasted.show(`${payload.name} is taken`, {
+                    theme: "bubble",
+                    position: "top-right",
+                    duration: 2000
+                  });
             }
         },
         SOCKET_getUser(context, payload) {
