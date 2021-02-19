@@ -40,6 +40,10 @@
                         src="../assets/Kertas.png"
                     />
                 </b-container>
+                <b-container class="mt-3" v-else>
+                    <h3>Please wait for other player to join</h3>
+                    <h5>You can't play janken alone</h5>
+                </b-container>
             </div>
         </div>
     </div>
@@ -59,13 +63,16 @@ export default {
         users() {
             return this.$store.state.users;
         },
+        gameStarted() {
+            return this.users.length !== 2;
+        }
     },
-    data() {
-        return {
-            gameStarted: false,
-            result: "",
-        };
-    },
+    // data() {
+    //     return {
+    //         gameStarted: (this.users.length === 2),
+    //         result: "",
+    //     };
+    // },
     methods: {
         setSelect(value) {
             this.gameStarted = true;
@@ -82,6 +89,12 @@ export default {
                 duration: 2000,
             });
         },
+        afterGame() {
+            this.$socket.emit("leave");
+            this.$store.commit("setName", "");
+            this.$store.commit("setUsers", "");
+            this.$router.push({ name: "Login" });
+        }
     },
     sockets: {
         tie: function () {
@@ -94,33 +107,42 @@ export default {
                 timerProgressBar: true,
             });
             this.gameStarted = false;
+            this.afterGame();
         },
         player1Win: function (choices) {
             this.result = `${choices[0]["user"]} wins!`;
             Swal.fire({
                 title: `${choices[0]["user"]} wins!`,
+                text: `${choices[0].choice} win against ${choices[1].choice}`,
                 timer: 2000,
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
             this.gameStarted = false;
+            this.afterGame();
         },
         player2Win: function (choices) {
             this.result = `${choices[1]["user"]} wins!`;
             Swal.fire({
                 title: `${choices[1]["user"]} wins!`,
+                text: `${choices[1].choice} win against ${choices[0].choice}`,
                 timer: 2000,
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
             this.gameStarted = false;
+            this.afterGame();
         },
     },
 };
 </script>
 
-<style>
+<style scoped>
 .janken:hover {
     cursor: pointer;
+}
+img {
+    width: 25vw;
+    max-width: 200px;
 }
 </style>
