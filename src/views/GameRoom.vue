@@ -1,53 +1,53 @@
 <template>
     <div>
-        <div class="justify-content-center">
-            <div>
-                <!-- <div>
-                    <b-button variant="info" class="m-2" @click="playGame"
-                        ><i class="fas fa-play-circle"></i> Play Game</b-button
-                    >
-                </div> -->
+        <div class="custom_center_screen">
+            <div class="justify-content-center">
                 <div>
-                    <b-button variant="danger" class="m-2" @click.prevent="leave"
-                        ><i class="fas fa-logout-circle"></i> Leave</b-button
-                    >
-                </div>
-            </div>
-            <b-container>
-                <div class="d-flex row justify-content-center">
-                    <PlayerCard v-for="user in users" :key="user" :name="user"> </PlayerCard>
-                </div>
-                <!-- <b-card>
-                    <div class="d-flex row justify-content-center">
-                        {{ name }} <br />
-                        {{ result }}
+                    <div>
+                        <b-button
+                            variant="warning"
+                            class="m-2"
+                            @click.prevent="leave"
+                            ><i class="fas fa-logout-circle"></i> Leave the
+                            game</b-button
+                        >
                     </div>
-                </b-card> -->
-            </b-container>
-            <b-container v-if="!gameStarted">
-                <img
-                    @click="setSelect('rock')"
-                    class="janken"
-                    src="../assets/Batu.png"
-                />
-                <img
-                    @click="setSelect('scissors')"
-                    class="janken"
-                    src="../assets/Gunting.png"
-                />
-                <img
-                    @click="setSelect('paper')"
-                    class="janken"
-                    src="../assets/Kertas.png"
-                />
-            </b-container>
+                </div>
+                <b-container>
+                    <div class="d-flex row justify-content-center">
+                        <PlayerCard
+                            v-for="user in users"
+                            :key="user"
+                            :name="user"
+                        >
+                        </PlayerCard>
+                    </div>
+                </b-container>
+                <b-container v-if="!gameStarted">
+                    <img
+                        @click="setSelect('rock')"
+                        class="janken"
+                        src="../assets/Batu.png"
+                    />
+                    <img
+                        @click="setSelect('scissors')"
+                        class="janken"
+                        src="../assets/Gunting.png"
+                    />
+                    <img
+                        @click="setSelect('paper')"
+                        class="janken"
+                        src="../assets/Kertas.png"
+                    />
+                </b-container>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
-import Swal from 'sweetalert2'
-import PlayerCard from '../components/PlayerCard.vue'
+import Swal from "sweetalert2";
+import PlayerCard from "../components/PlayerCard.vue";
 export default {
     name: "GameRoom",
     props: ["gameId"],
@@ -68,31 +68,24 @@ export default {
     },
     methods: {
         setSelect(value) {
-            // this.$store.commit("setSelect", value);
-            this.gameStarted = true
+            this.gameStarted = true;
             this.$socket.emit("player choice", this.name, value);
         },
         leave() {
-            this.$socket.disconnect();
-            this.$store.commit('setName', '');
-            this.$store.commit('setUsers', '');
-            this.$router.push({ name: 'Login' })
+            this.$socket.emit("leave");
+            this.$store.commit("setName", "");
+            this.$store.commit("setUsers", "");
+            this.$router.push({ name: "Login" });
             this.$toasted.show("Success logout", {
                 theme: "bubble",
                 position: "top-right",
-                duration: 2000
+                duration: 2000,
             });
-        }
+        },
     },
     sockets: {
         tie: function () {
-            // countdown(choices);
             this.result = `A tie!`;
-            // setTimeout(function () {
-            //     this.result = `A tie!`;
-            // }, 5000);
-
-            // submitted = false;
             Swal.fire({
                 title: "A tie!",
                 text: "No one wins!",
@@ -100,44 +93,28 @@ export default {
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-            this.gameStarted = false
+            this.gameStarted = false;
         },
         player1Win: function (choices) {
-            // countdown(choices);
             this.result = `${choices[0]["user"]} wins!`;
-            // setTimeout(function () {
-            //     this.result = `${choices[0]["user"]} wins!`;
-            // }, 5000);
-
-            // submitted = false;
             Swal.fire({
                 title: `${choices[0]["user"]} wins!`,
                 timer: 2000,
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-            this.gameStarted = false
+            this.gameStarted = false;
         },
         player2Win: function (choices) {
-            // countdown(choices);
             this.result = `${choices[1]["user"]} wins!`;
-            // setTimeout(function () {
-            //     this.result = `${choices[1]["user"]} wins!`;
-            // }, 5000);
-
-            // submitted = false;
             Swal.fire({
                 title: `${choices[1]["user"]} wins!`,
                 timer: 2000,
                 showConfirmButton: false,
                 timerProgressBar: true,
             });
-            this.gameStarted = false
+            this.gameStarted = false;
         },
-    },
-    created() {
-        // console.log({ game: this.$route.params.gameId });
-        // this.$store.dispatch("getRoom", this.$route.params.gameId);
     },
 };
 </script>
