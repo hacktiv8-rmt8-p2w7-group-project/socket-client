@@ -8,7 +8,7 @@
                     >
                 </div> -->
                 <div>
-                    <b-button variant="critical" class="m-2" @click="leave"
+                    <b-button variant="danger" class="m-2" @click.prevent="leave"
                         ><i class="fas fa-logout-circle"></i> Leave</b-button
                     >
                 </div>
@@ -29,7 +29,7 @@
                     </b-card>
                 </b-card>
             </b-container>
-            <b-container v-if="gameStarted">
+            <b-container v-if="!gameStarted">
                 <img
                     @click="setSelect('rock')"
                     class="janken"
@@ -51,6 +51,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
     name: "GameRoom",
     props: ["gameId"],
@@ -83,6 +84,11 @@ export default {
             this.$store.commit('setName', '');
             this.$store.commit('setUsers', '');
             this.$router.push({ name: 'Login' })
+            this.$toasted.show("Success logout", {
+                theme: "bubble",
+                position: "top-right",
+                duration: 2000
+            });
         }
     },
     sockets: {
@@ -94,6 +100,11 @@ export default {
             // }, 5000);
 
             // submitted = false;
+            Swal.fire({
+                title: "A tie!",
+                text: "No one wins!",
+                timer: 5000,
+            });
         },
         player1Win: function (choices) {
             // countdown(choices);
@@ -103,6 +114,10 @@ export default {
             // }, 5000);
 
             // submitted = false;
+            Swal.fire({
+                title: `${choices[0]["user"]} wins!`,
+                timer: 5000,
+            });
         },
         player2Win: function (choices) {
             // countdown(choices);
@@ -112,6 +127,10 @@ export default {
             // }, 5000);
 
             // submitted = false;
+            Swal.fire({
+                title: `${choices[1]["user"]} wins!`,
+                timer: 5000,
+            });
         },
     },
     created() {
