@@ -35,8 +35,6 @@ export default {
     methods: {
         login() {
             this.$socket.emit(`login`, this.name);
-            this.$store.commit("setName", this.name);
-            this.$router.push("/GameRoom");
             //
             // this.$socket.emit(`login`, this.name, (data) => {
             //     if (data) {

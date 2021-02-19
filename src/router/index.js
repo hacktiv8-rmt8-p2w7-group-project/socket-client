@@ -2,6 +2,7 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 import Login from "../views/Login.vue"
 import GameRoom from "../views/GameRoom.vue"
+import RoomFull from "../views/RoomFull.vue"
 import store from "../store/"
 
 Vue.use(VueRouter)
@@ -31,6 +32,11 @@ const routes = [
             }
         },
     },
+    {
+        path: "/roomfull",
+        name: "RoomFull",
+        component: RoomFull,
+    }
 ]
 
 const router = new VueRouter({

@@ -7,6 +7,11 @@
                         ><i class="fas fa-play-circle"></i> Play Game</b-button
                     >
                 </div> -->
+                <div>
+                    <b-button variant="critical" class="m-2" @click="leave"
+                        ><i class="fas fa-logout-circle"></i> Leave</b-button
+                    >
+                </div>
             </div>
             <b-container>
                 <b-card>
@@ -24,7 +29,7 @@
                     </b-card>
                 </b-card>
             </b-container>
-            <b-container>
+            <b-container v-if="gameStarted">
                 <img
                     @click="setSelect('rock')"
                     class="janken"
@@ -70,8 +75,15 @@ export default {
         },
         setSelect(value) {
             // this.$store.commit("setSelect", value);
+            this.gameStarted = true
             this.$socket.emit("player choice", this.name, value);
         },
+        leave() {
+            this.$socket.disconnect();
+            this.$store.commit('setName', '');
+            this.$store.commit('setUsers', '');
+            this.$router.push({ name: 'Login' })
+        }
     },
     sockets: {
         tie: function () {
