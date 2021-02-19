@@ -4,7 +4,7 @@
             <b-card
                 :title="title"
                 tag="article"
-                style="max-width: 20rem"
+                style="min-width: 10em"
                 class="mb-2"
             >
                 <template #footer>

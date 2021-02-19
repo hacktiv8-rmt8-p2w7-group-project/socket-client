@@ -2,10 +2,11 @@
     <div>
         <div class="custom_center_screen">
             <b-card
-                title="Input your name"
+                title="Janken"
                 style="max-width: 20rem"
                 class="mb-2 mx-auto"
             >
+                <b-text>Input your name</b-text>
                 <b-form @submit.prevent="login">
                     <b-form-input
                         class="mb-3"

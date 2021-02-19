@@ -40,6 +40,8 @@ export default new Vuex.Store({
         },
         SOCKET_getUser(context, payload) {
             context.commit("setUsers", payload)
+            let bel = new Audio('https://www.meramukoding.com/wp-content/uploads/2020/05/doorbell.mp3');
+            bel.play();
         },
         SOCKET_roomFull(context) {
             router.push({ name: "RoomFull" })
